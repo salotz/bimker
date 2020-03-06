@@ -1,0 +1,40 @@
+package:
+  name: bimker
+  version: 2020-03-06a0.dev0
+
+source:
+  fn: bimker-2020-03-06a0.dev0.tar.gz
+  url: https://github.com/salotz/bimker/releases/download//{{ version }}/{{ name }}-{{ version }}.tar.gz
+  # TODO: way to specify a hole or 
+  sha256:
+
+build:
+  number: 0
+  script: "{{ PYTHON }} -m pip install . -vv"
+  entry_points:
+    - bimker = bimker.cli:cli
+
+requirements:
+  build:
+    - python
+    - setuptools
+    - wheel
+
+  host:
+    - python
+    
+  run:
+    - python
+    
+
+about:
+  home: https://github.com/salotz/bimker
+  license: MIT
+  license_file: LICENSE
+  summary: "Manage personal programs and configs for bootstrapping and maintaining productive work environments in linux."
+  doc_url: https://salotz.github.io/bimker
+  dev_url: https://github.com/salotz/bimker
+
+extra:
+  recipe-maintainers:
+    - salotz
