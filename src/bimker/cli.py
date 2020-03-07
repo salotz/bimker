@@ -3,12 +3,24 @@ from invoke import task, Collection
 import os
 import os.path as osp
 from pathlib import Path
+from contextlib import contextmanager
 
 from . import (
     CONFIG_DIR,
 )
 
 import bimker.config as config
+
+@contextmanager
+def cd(newdir):
+    """Context manager for changing directories to make sure you go back"""
+    prevdir = os.getcwd()
+    os.chdir(os.path.expanduser(newdir))
+    try:
+        yield
+    finally:
+        os.chdir(prevdir)
+
 
 def validate_locals(local_vars):
 
@@ -42,3 +54,20 @@ validate_locals(locals())
 # this should have provided the bimker_program so we just alias it
 
 program = bimker_program
+
+
+# get the directory to execute things from
+exec_dir = Path(osp.expanduser(osp.expandvars(config.exec_dir)))
+
+assert osp.exists(exec_dir), \
+    "Execution directory does not exist: {exec_dir}"
+assert exec_dir.is_dir(), \
+    "Execution directory is not a directory: {exec_dir}"
+
+def cli():
+    with cd(exec_dir):
+        program.run()
+
+if __name__ == "__main__":
+
+    cli()
