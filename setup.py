@@ -66,7 +66,7 @@ setup(
 
     entry_points={
         'console_scripts' : [
-            'bimker=bimker.cli:cli',
+            'bimker=bimker.cli:program.run',
         ]
     },
 
